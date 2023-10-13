@@ -16,6 +16,9 @@ export class SettingsService {
   }
 
   findAll() {
+    console.log('!!this.settings');
+    console.log(!!this.settings);
+
     return this.settings;
   }
 

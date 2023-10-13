@@ -102,7 +102,7 @@ export class ProductsService {
           }
         }
 
-        console.log(searchText, '\n\n');
+        // console.log(searchText, '\n\n');
 
         // data = fuse
         //   .search({
@@ -117,18 +117,20 @@ export class ProductsService {
         data = await this.productModel.find(query);
       }
 
-      console.log(data, '\n\n');
+      // console.log(data, '\n\n');
 
       const results = data.slice(startIndex, endIndex);
       const url = `/products?search=${search}&limit=${limit}`;
 
-      console.log(results.length, '\n');
+      // console.log(results.length, '\n');
 
       return {
         data: results,
         ...paginate(data.length, page, limit, results.length, url),
       };
     } catch (error) {
+      console.log('error getting products');
+
       const url = `/products?search=${search}&limit=${limit}`;
       return {
         data: [],
@@ -188,6 +190,9 @@ export class ProductsService {
           .limit(20)
           .exec();
 
+        console.log('relatedProducts.length ');
+        console.log(relatedProducts.length, '\n\n');
+
         return {
           ...product.toObject(), // Convert Mongoose document to plain JavaScript object
           related_products: relatedProducts,
@@ -198,6 +203,9 @@ export class ProductsService {
         );
       }
     } catch (error) {
+      console.log('an error at getProductBySlug: ');
+      console.log(error, '\n\n');
+
       throw new UnauthorizedException(
         `product with the given slug is not found: ${error.message}`,
       );
